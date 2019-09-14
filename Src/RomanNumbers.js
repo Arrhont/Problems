@@ -36,3 +36,27 @@ console.log( romanToArabic(rNum3) );
 console.log( romanToArabic(rNum4) );
 console.log( romanToArabic(rNum5) );
 console.log( romanToArabic(rNum6) );
+
+function arabicToRoman(num) {
+    let arabic = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000, 4000, 9000, 10000];
+    let roman = ['I', 'IV', 'V', 'IX', 'X', 'XL', 'L', 'XC', 'C', 'CD', 'D', 'CM', 'M', 'MW','W', 'Z'];
+    
+    if ( !isFinite(num) ) return 'Ошибка, не число.';
+    if (num >= 39999) return 'Сильно много';
+
+    let result = '';
+    let i = arabic.length - 1;
+    let remainNum = num;
+
+    while (remainNum > 0) {
+        if (remainNum >= arabic[i]) {
+            result += roman[i];
+            remainNum -= arabic[i];
+        } else {
+            i--;
+        }
+    }
+    return result;
+}
+
+console.log( arabicToRoman(459) );
