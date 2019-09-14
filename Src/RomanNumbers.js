@@ -15,7 +15,6 @@ let romanConverter = {
     C : 100,
 };
 
-
 function romanToArabic(str) {
     let romanArray = str.split('');
     let arabicArray = romanArray.map( (a) => romanConverter[a] );
@@ -26,7 +25,7 @@ function romanToArabic(str) {
         } else {
             acc -= current;
         }
-        
+
         return acc;
     }, 0);
 }
