@@ -26,3 +26,17 @@ function arrayReverse2(arr) {
 
 console.log(arrayReverse2(test));
 console.log(arrayReverse2(test));
+
+function arrayReverse3(arr) {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i >= 0; i--) {
+        const element = copy[i];
+        arr.splice(0, 1);
+        arr.push(element);
+    }
+
+    return arr;
+}
+
+console.log(arrayReverse3(test));
+console.log(arrayReverse3(test));
