@@ -1,6 +1,6 @@
 "use strict";
 
-export function reversePolishCalc(str) {
+function reversePolishCalc(str) {
   const notation = str.split(" ");
   let stack = [];
   let i = 0;
@@ -39,5 +39,7 @@ export function reversePolishCalc(str) {
   }
   return stack;
 }
+
+module.exports.reversePolishCalc = reversePolishCalc;
 
 console.log(reversePolishCalc("5 3 - 8 * "));
