@@ -1,7 +1,7 @@
 "use strict";
 
 const cash = {                                     // Let operate money in a form of object full of bills (cashObj)
-  100: 44,
+  100: 0,
   200: 25,
   500: 11,
   1000: 5,
@@ -51,14 +51,14 @@ function TerminalCreator(
 
   this.cashIn(cashObj);                            // initial cashIn
 
-  this.cashOut = function(sum) {
+  this.cashOutput = function cashOutput(sum) {
     let tempSum = sum;
     let i = 0;                                     // Counter for moving through BillArray
 
     if (sum > this.money) {
       throw new Error("Недостаточно средств в банкомате");
     }
-    this.cashOut ={};
+    this.cashOut = {};
     for (let key in this.cash) {
       this.cashOut[key] = 0;  
     }                        // Emptying last cashOut
@@ -74,18 +74,23 @@ function TerminalCreator(
           for (let key in this.cashOut) {          // or there is lack of such bills)
             this.cash[key] += this.cashOut[key];   // Returning cash into terminal from cashOut
             this.cashOut[key] = 0;
-            throw new Error('Невозможно выдать данную сумму');
           }
+          if (this.billArray.length === 0) { 
+            billTypeSorter.call(this);                     // Recollecting money state (maybe -= sum?)  
+            throw new Error('Невозможно выдать купюры');
+          }
+          this.billArray.shift();
+          return cashOutput.call(this, sum);
         }
       }
     }
-    this.money = terminalMoneyCount.call(this);    // Recollecting money state (maybe -= sum?)
+    this.money = terminalMoneyCount.call(this); 
+    billTypeSorter.call(this);                     // Recollecting money state (maybe -= sum?)
     return this.cashOut;                           // Return money in CashObj form
   }
 }
 
 let tinkoff = new TerminalCreator("Tinkoff", cash);
 console.log(tinkoff);
-console.log(tinkoff.cashOut(19700));
-tinkoff.cashIn({ '100': 0, '200': 1, '500': 7, '1000': 5, '2000': 3, '5000': 3 });
+console.log(tinkoff.cashOutput(26400));
 console.log(tinkoff);
