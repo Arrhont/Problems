@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\Src\\ReversePolishConverter.js"
+            "program": "${workspaceFolder}\\Src\\BankTerminal.js"
         }
     ]
 }
