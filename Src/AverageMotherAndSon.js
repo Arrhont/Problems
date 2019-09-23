@@ -42,3 +42,26 @@ let aF = JSON.stringify([
 
 let ancestry = JSON.parse(aF);
 
+function returnMother(person, personArray) {
+    let mother = null;
+    personArray.forEach((item) => {
+        if (item.name == person.mother) {
+           mother = item;
+        }
+    });
+    return mother;
+}
+
+let averageObj = ancestry.reduce(((acc, person, index, array) => {
+    if (returnMother(person, array)) {
+        acc.sum += person.born - returnMother(person, array).born;
+        acc.quantity += 1;
+        return acc;
+    }
+    return acc;
+}), { sum : 0, quantity : 0 });
+
+averageObj.average = averageObj.sum / averageObj.quantity;
+
+console.log(returnMother(ancestry[7], ancestry));
+console.log(averageObj.average);
