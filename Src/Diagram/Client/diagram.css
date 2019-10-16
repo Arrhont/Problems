@@ -1,0 +1,28 @@
+#inputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.diagramInput {
+    margin-top: 5px;
+}
+
+.diagramContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+}
+
+.diagramColumn {
+    background-color: green;
+    width: 15px;
+}
+
+#drawButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#drawButton {
+    margin-top: 10px;
+}
