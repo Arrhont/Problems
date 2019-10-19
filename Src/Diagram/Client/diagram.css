@@ -7,11 +7,10 @@
     margin-top: 5px;
 }
 
-.diagramContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100px;
-}
+ .diagramContainer {
+    border-style: solid;
+    border-width: 2px;
+} 
 
 .diagramColumn {
     background-color: green;
