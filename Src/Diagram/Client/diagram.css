@@ -4,7 +4,7 @@
 }
 
 .diagramInput {
-    margin-top: 5px;
+    display: inline-block;
 }
 
  .diagramContainer {
@@ -15,6 +15,15 @@
 .diagramColumn {
     background-color: green;
     width: 15px;
+}
+
+.inputDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.removeButton {
+    display: inline-block;
 }
 
 #drawButtonContainer {

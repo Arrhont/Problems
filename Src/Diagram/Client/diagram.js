@@ -9,28 +9,50 @@ window.addEventListener('load', () => {
 });
 
 loadWindow.then(() => {
-  inputCreate.counter = 0;
+  imputBlockDraw.counter = 0;
   const input = document.querySelector('.diagramInput');
-  input.addEventListener('change', inputCreate);
+  input.addEventListener('change', imputBlockDraw);
   input.focus();
   const drawButton = document.querySelector('#drawButton');
   drawButton.addEventListener('click', diagramDraw);
 });
 
-function inputCreate(event) {
-  inputCreate.counter++;
-  event.target.removeEventListener('change', inputCreate);
-  const inputContainer = document.querySelector('#inputContainer');
+function inputCreate(counter) {
   const input = document.createElement('input');
   input.className = 'diagramInput';
   input.setAttribute('type', 'number');
-  input.setAttribute('dependance', 'input' + inputCreate.counter);
-  input.addEventListener('change', inputCreate);
-  inputContainer.appendChild(input);
+  input.setAttribute('dependance', 'input' + counter);
+  input.addEventListener('change', imputBlockDraw);
+  return input;
+}
+
+function removeButtonCreate(counter) {
+  const removeButton = document.createElement('button');
+  removeButton.textContent = 'Remove';
+  removeButton.className = 'removeButton';
+  removeButton.setAttribute('dependance', 'input' + counter);
+  return removeButton;
+}
+
+function imputBlockDraw(event) {
+  imputBlockDraw.counter++;
+  event.target.removeEventListener('change', imputBlockDraw);
+
+  const inputDiv = document.createElement('div');
+  inputDiv.className = 'inputDiv';
+  inputDiv.setAttribute('dependance', 'input' + imputBlockDraw.counter);
+  
+  const inputContainer = document.querySelector('#inputContainer');
+  inputContainer.append(inputDiv);
+  const input = inputCreate(imputBlockDraw.counter);
+  const removeButton = removeButtonCreate(imputBlockDraw.counter);
+  inputDiv.append(input);
+  inputDiv.append(removeButton);
   input.focus();
 }
 
 function inputValueCollect() {
+  // returns an array of objects {value, label} to create dependance between inputs and columns respectively 
   const inputCollection = document.querySelectorAll('.diagramInput');
   const inputCollectionArray = Array.from(inputCollection);
   const inputValueArray = inputCollectionArray
