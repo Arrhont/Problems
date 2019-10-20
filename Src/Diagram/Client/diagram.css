@@ -4,7 +4,7 @@
 }
 
 .diagramInput {
-    display: inline-block;
+    display: inline;
 }
 
  .diagramContainer {
@@ -19,11 +19,11 @@
 
 .inputDiv {
     display: flex;
-    flex-direction: column;
+    flex-direction: raw;
 }
 
 .removeButton {
-    display: inline-block;
+    display: inline;
 }
 
 #drawButtonContainer {

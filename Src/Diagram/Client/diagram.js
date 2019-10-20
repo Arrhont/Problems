@@ -15,6 +15,8 @@ loadWindow.then(() => {
   input.focus();
   const drawButton = document.querySelector('#drawButton');
   drawButton.addEventListener('click', diagramDraw);
+  const removeButton = document.querySelector('.removeButton');
+  removeButton.addEventListener('click', inputDivRemove);
 });
 
 function inputCreate(counter) {
@@ -31,7 +33,23 @@ function removeButtonCreate(counter) {
   removeButton.textContent = 'Remove';
   removeButton.className = 'removeButton';
   removeButton.setAttribute('dependance', 'input' + counter);
+  removeButton.addEventListener('click', inputDivRemove);
   return removeButton;
+}
+
+function inputDivRemove(event) {
+  const inputDivCollection = document.querySelectorAll('.inputDiv');
+  if (inputDivCollection.length == 1) {
+    return;
+  }
+  const inputDiv = event.target.closest('div');
+  const dependanceLabel = inputDiv.getAttribute('dependance');
+  const nextInputDiv = document.querySelector(`[dependance="${dependanceLabel}"] + div`);
+  if (!nextInputDiv) {
+    return;
+  }
+  event.target.removeEventListener('click', inputDivRemove);
+  inputDiv.remove();
 }
 
 function imputBlockDraw(event) {
