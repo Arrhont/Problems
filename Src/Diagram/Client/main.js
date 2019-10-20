@@ -88,22 +88,6 @@ function columnRemove(event) {
   removingColumn.remove();
 }
 
-function diagramClear() {
-  const diagram = document.querySelectorAll('.diagramColumn');
-  for (let column of diagram) {
-    column.remove();
-  }
-}
-
-function inputValueCollect() {
-  const inputCollection = document.querySelectorAll('.diagramInput');
-  const inputCollectionArray = Array.from(inputCollection);
-  const inputValueArray = inputCollectionArray
-    .map((input) => input.value)
-    .filter((value) => value !== '');
-  return inputValueArray;
-}
-
 function columnCreate(inputObj) {
   const column = document.createElement('div');
   column.style.height = inputObj.value + 'px';
