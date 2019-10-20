@@ -12,8 +12,7 @@ loadWindow.then(() => {
   inputBlockDraw.counter = 0;
   const input = document.querySelector('.diagramInput');
   input.addEventListener('change', inputBlockDraw);
-  const drawButton = document.querySelector('#drawButton');
-  drawButton.addEventListener('click', diagramDraw);
+  input.addEventListener('change', inputChangeHandle);
   const removeButton = document.querySelector('.removeButton');
   removeButton.addEventListener('click', inputDivRemove);
 });
@@ -25,7 +24,6 @@ function inputBlockDraw(event) {
   const inputDiv = document.createElement('div');
   inputDiv.className = 'inputDiv';
   inputDiv.setAttribute('dependance', 'input' + inputBlockDraw.counter);
-  
   const inputContainer = document.querySelector('#inputContainer');
   inputContainer.append(inputDiv);
   const input = inputCreate(inputBlockDraw.counter);
@@ -35,17 +33,32 @@ function inputBlockDraw(event) {
   input.focus();
 }
 
-function diagramDraw() {
-  diagramClear();
-
-  const inputValueArray = inputValueCollect();
-  const columnCollection = inputValueArray.map(columnCreate);
-  console.log(columnCollection);
-
-  const diagramContainer = document.querySelector('.diagramContainer');
-  for (let column of columnCollection) {
-    diagramContainer.append(column);
+function inputChangeHandle(event) {
+  const dependanceLabel = event.target.getAttribute('dependance');
+  const isColumnExist = document.querySelector(`div[dependance="${dependanceLabel}"].diagramColumn`) !== null;
+  if (isColumnExist) {
+    columnRedraw(event);
+  } else {
+    columnAdd(event);
   }
+}
+
+function columnAdd(event) {
+  const input = event.target;
+  const value = input.value;
+  const dependanceLabel = input.getAttribute('dependance');
+  const column = columnCreate({value: 0, dependance: dependanceLabel});
+  const diagramContainer = document.querySelector('.diagramContainer');
+  diagramContainer.append(column);
+  setTimeout(() => column.style.height = value + 'px', 0);
+}
+
+function columnRedraw(event) {
+  const input = event.target;
+  const newValue = input.value;
+  const dependanceLabel = input.getAttribute('dependance');
+  const resizingColumn = document.querySelector(`div[dependance="${dependanceLabel}"].diagramColumn`);
+  resizingColumn.style.height = newValue + 'px';
 }
 
 function inputCreate(counter) {
@@ -54,6 +67,7 @@ function inputCreate(counter) {
   input.setAttribute('type', 'number');
   input.setAttribute('dependance', 'input' + counter);
   input.addEventListener('change', inputBlockDraw);
+  input.addEventListener('change', inputChangeHandle);
   return input;
 }
 
@@ -63,7 +77,15 @@ function removeButtonCreate(counter) {
   removeButton.className = 'removeButton';
   removeButton.setAttribute('dependance', 'input' + counter);
   removeButton.addEventListener('click', inputDivRemove);
+  removeButton.addEventListener('click', columnRemove);
   return removeButton;
+}
+
+function columnRemove(event) {
+  const input = event.target;
+  const dependanceLabel = input.getAttribute('dependance');
+  const removingColumn = document.querySelector(`div[dependance="${dependanceLabel}"].diagramColumn`);
+  removingColumn.remove();
 }
 
 function diagramClear() {
@@ -74,12 +96,11 @@ function diagramClear() {
 }
 
 function inputValueCollect() {
-  // returns an array of objects {value, label} to create dependance between inputs and columns respectively 
   const inputCollection = document.querySelectorAll('.diagramInput');
   const inputCollectionArray = Array.from(inputCollection);
   const inputValueArray = inputCollectionArray
-    .map((input) => ({value: input.value, dependance: input.getAttribute('dependance')}))
-    .filter((inputObj) => inputObj.value !== '');
+    .map((input) => input.value)
+    .filter((value) => value !== '');
   return inputValueArray;
 }
 
